@@ -9,9 +9,7 @@ let delBtn = document.querySelector('.del-btn');
 
 
 let form = document.querySelector('.form');
-
-
-
+let string = document.querySelector('.string');
 
 
 form.addEventListener('input', function(){
@@ -28,26 +26,33 @@ form.addEventListener('input', function(){
     addBtn.addEventListener('click', added);
 
     function added() {
-        
-        
         titlecontent.textContent = Note.title;
         textcontent.textContent = Note.text;
         titlefield.value = '';
-        textfield.value = '';
-      
-        
+        textfield.value = '';       
     }
+
+    textfield.addEventListener('keypress', function(event){
+        let p = document.createElement('p');
+        if (event.key === "Enter") {
+           
+            string.appendChild(p);
+        }
+    })
         
 })
 
 editBtn.addEventListener('click', function(){
     titlefield.value = Note.title;
     textfield.value = Note.text;
-});
-
+})
 
 delBtn.addEventListener('click', function(){
     titlecontent.textContent = '';
     textcontent.textContent = '';
+    titlefield.value = '';
+    textfield.value = '';
+    Note.title = '';
+    Note.text = '';
 });
 
