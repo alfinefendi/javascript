@@ -1,58 +1,63 @@
+
 let titlefield = document.querySelector('.titlefield');
 let textfield = document.querySelector('.textfield');
-let addBtn = document.querySelector('.add-btn');
-let textcontent = document.querySelector('.paragraph');
-let titlecontent = document.querySelector('.title');
-let editBtn = document.querySelector('.edit-btn');
-let delBtn = document.querySelector('.del-btn');
+
+
+let ok = document.querySelector('.add-btn');
+
+    ok.addEventListener('click', function(){
+    
+    let wraper = document.querySelector('.content-wraper');
+    let content = document.createElement('div');
+    content.classList.add('content');
+    let head = document.createElement('div');
+    head.classList.add('string');
 
 
 
-let form = document.querySelector('.form');
-let string = document.querySelector('.string');
+    let title = document.createElement('h4');
+    title.classList.add('title');
+    let text = document.createElement('p');
+    text.classList.add('text');
 
 
-form.addEventListener('input', function(){
-   
-    let tempTitle = titlefield.value;
-    let tempText = textfield.value;
+    let icon = document.createElement('div');
+    icon.classList.add('op-icon');
+    let edit = document.createElement('button');
+    edit.classList.add('edit-btn');
+    edit.innerHTML = "Edit"
+    let del = document.createElement('button');
+    del.innerHTML = "Delete"
+    del.classList.add('del-btn');
 
-    function note(title,text) {
-        this.title = title,
-        this.text = text
-    }
+    head.appendChild(title);
+    head.appendChild(text);
 
-    Note = new note(tempTitle, tempText);
-    addBtn.addEventListener('click', added);
 
-    function added() {
-        titlecontent.textContent = Note.title;
-        textcontent.textContent = Note.text;
-        titlefield.value = '';
-        textfield.value = '';       
-    }
 
-    textfield.addEventListener('keypress', function(event){
-        let p = document.createElement('p');
-        if (event.key === "Enter") {
-           
-            string.appendChild(p);
-        }
-    })
-        
-})
+    icon.appendChild(edit);
+    icon.appendChild(del);
 
-editBtn.addEventListener('click', function(){
-    titlefield.value = Note.title;
-    textfield.value = Note.text;
-})
+    content.appendChild(head);
+    content.appendChild(icon);
 
-delBtn.addEventListener('click', function(){
-    titlecontent.textContent = '';
-    textcontent.textContent = '';
+    let tempTitle = titlefield.value
+    let tempText = textfield.value
+    wraper.appendChild(content);
+    title.innerHTML = tempTitle;
+    text.innerHTML = tempText;
+
     titlefield.value = '';
     textfield.value = '';
-    Note.title = '';
-    Note.text = '';
-});
+
+    let editBtn = document.querySelector('.edit-btn');
+    edit.addEventListener('click', function(){
+
+        let title = document.querySelector('.title');
+        let text = document.querySelector('.text');
+        titlefield.value =  title.innerHTML;
+        textfield.value =  text.innerHTML;
+    })
+        
+    })
 

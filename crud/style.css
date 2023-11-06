@@ -8,6 +8,12 @@ body {
     margin: 2em;
 }
 
+.container {
+    width: 900px;
+    display: flex;
+    justify-content: space-between;
+}
+
 .form {
     width: 300px;
 }
@@ -19,6 +25,13 @@ body {
 
 .textfield {
     margin: 10px 0;
+}
+
+.content {
+    width: 300px;
+    display: flex;
+    justify-content: space-between ;
+    background-color: #ddd;
 }
 
 .op-btn {
