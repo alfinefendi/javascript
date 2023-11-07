@@ -1,63 +1,47 @@
+function onFormSubmit() {
+    var formData = readFormData();
+    insertNewRecord(formData);
+    resetForm();
+}
 
-let titlefield = document.querySelector('.titlefield');
-let textfield = document.querySelector('.textfield');
-
-
-let ok = document.querySelector('.add-btn');
-
-    ok.addEventListener('click', function(){
-    
-    let wraper = document.querySelector('.content-wraper');
-    let content = document.createElement('div');
-    content.classList.add('content');
-    let head = document.createElement('div');
-    head.classList.add('string');
-
-
-
-    let title = document.createElement('h4');
-    title.classList.add('title');
-    let text = document.createElement('p');
-    text.classList.add('text');
+function readFormData() {
+    var formData = {};
+    formData['fullName'] = document.getElementById('fullName').value;
+    formData['empCode'] = document.getElementById('empCode').value;
+    formData['salary'] = document.getElementById('salary').value;
+    formData['city'] = document.getElementById('city').value;
+    return formData;
+}
 
 
-    let icon = document.createElement('div');
-    icon.classList.add('op-icon');
-    let edit = document.createElement('button');
-    edit.classList.add('edit-btn');
-    edit.innerHTML = "Edit"
-    let del = document.createElement('button');
-    del.innerHTML = "Delete"
-    del.classList.add('del-btn');
+function insertNewRecord(data) {
+    var table = document.getElementById('employeeList').getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.length);
+    cell1 = newRow.insertCell(0);
+    cell1.innerHTML = data.fullName;
+    cell2 = newRow.insertCell(1);
+    cell2.innerHTML = data.empCode;
+    cell3 = newRow.insertCell(2);
+    cell3.innerHTML = data.salary;
+    cell4 = newRow.insertCell(3);
+    cell4.innerHTML = data.city;
+    cell4 = newRow.insertCell(4);
+    cell4.innerHTML = `<a onClick="onEdit(this)">Edit</a>
+                       <a onClick="onDelete(this)">Delete</a>`;
+}
 
-    head.appendChild(title);
-    head.appendChild(text);
+function resetForm() {
+    document.getElementById('fullName').value = '';
+    document.getElementById('empCode').value = '';
+    document.getElementById('salary').value = '';
+    document.getElementById('city').value = '';
+}
 
 
-
-    icon.appendChild(edit);
-    icon.appendChild(del);
-
-    content.appendChild(head);
-    content.appendChild(icon);
-
-    let tempTitle = titlefield.value
-    let tempText = textfield.value
-    wraper.appendChild(content);
-    title.innerHTML = tempTitle;
-    text.innerHTML = tempText;
-
-    titlefield.value = '';
-    textfield.value = '';
-
-    let editBtn = document.querySelector('.edit-btn');
-    edit.addEventListener('click', function(){
-
-        let title = document.querySelector('.title');
-        let text = document.querySelector('.text');
-        titlefield.value =  title.innerHTML;
-        textfield.value =  text.innerHTML;
-    })
-        
-    })
-
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("fullName").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("empCode").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("salary").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("city").value = selectedRow.cells[3].innerHTML;
+}
