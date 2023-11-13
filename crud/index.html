@@ -4,32 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-            <div class="form">
-                <div class="input">
-                    <input type="text" class="titlefield" value="">
-                    <textarea class="textfield"></textarea>
-                </div>
-                <div class="op-btn">    
-                    <button class="add-btn">OK</button>
-                </div>
-            </div>
-            
-            <div class="content">
-                <div class="string">
-                    <h4 class="title"></h4>
-                    <pre class="paragraph"></pre>
-                </div>
-                <div class="op-icon">
-                    <button class="edit-btn">Edit</button>
-                    <button class="del-btn">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <table>
+        <tr>
+            <td>
+                <form autocomplete="off" onsubmit="event.preventDefault();onFormSubmit()";>
+                    <div>
+                            <label>Full Name*</label><label class="validation-error hide" id="fullNameValidationError">this field is required.</label>
+                            <input type="text" name="fullName" id="fullName">
+                        <div>
+                            <label>EMP Code</label>
+                            <input type="text" name="empCode" id="empCode">
+                        </div>
+                        <div>
+                            <label>Salary</label>
+                            <input type="text" name="salary" id="salary">
+                        </div>
+                        <div>
+                            <label>City</label>
+                            <input type="text" name="city" id="city">
+                        </div>
+                        <div class="form-action-buttons">
+                            <input type="submit" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <table class="list" id="employeeList">
+                    <thead>
+                        <tr>
+                            <th>fullname</th>
+                            <th>emp code</th>
+                            <th>salary</th>
+                            <th>city</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
     <script src="app.js"></script>
 </body>
 </html>

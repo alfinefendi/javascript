@@ -1,58 +1,89 @@
-let titlefield = document.querySelector('.titlefield');
-let textfield = document.querySelector('.textfield');
-let addBtn = document.querySelector('.add-btn');
-let textcontent = document.querySelector('.paragraph');
-let titlecontent = document.querySelector('.title');
-let editBtn = document.querySelector('.edit-btn');
-let delBtn = document.querySelector('.del-btn');
+var selectedRow = null
 
-
-
-let form = document.querySelector('.form');
-let string = document.querySelector('.string');
-
-
-form.addEventListener('input', function(){
-   
-    let tempTitle = titlefield.value;
-    let tempText = textfield.value;
-
-    function note(title,text) {
-        this.title = title,
-        this.text = text
+function onFormSubmit() {
+    if(validate()){
+    var formData = readFormData();
+    if (selectedRow == null)
+        insertNewRecord(formData);
+        else
+        updateRecord(formData);
+            
+    resetForm();
     }
+}
 
-    Note = new note(tempTitle, tempText);
-    addBtn.addEventListener('click', added);
+function readFormData() {
+    var formData = {};
+    formData['fullName'] = document.getElementById('fullName').value;
+    formData['empCode'] = document.getElementById('empCode').value;
+    formData['salary'] = document.getElementById('salary').value;
+    formData['city'] = document.getElementById('city').value;
+    return formData;
+}
 
-    function added() {
-        titlecontent.textContent = Note.title;
-        textcontent.textContent = Note.text;
-        titlefield.value = '';
-        textfield.value = '';       
+
+function insertNewRecord(data) {
+    var table = document.getElementById('employeeList').getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.length);
+    cell1 = newRow.insertCell(0);
+    cell1.innerHTML = data.fullName;
+    cell2 = newRow.insertCell(1);
+    cell2.innerHTML = data.empCode;
+    cell3 = newRow.insertCell(2);
+    cell3.innerHTML = data.salary;
+    cell4 = newRow.insertCell(3);
+    cell4.innerHTML = data.city;
+    cell4 = newRow.insertCell(4);
+    cell4.innerHTML = `<a onClick="onEdit(this)">Edit</a>
+                       <a onClick="onDelete(this)">Delete</a>`;
+}
+
+function resetForm() {
+    document.getElementById('fullName').value = '';
+    document.getElementById('empCode').value = '';
+    document.getElementById('salary').value = '';
+    document.getElementById('city').value = '';
+    selectedRow = null
+}
+
+
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("fullName").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("empCode").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("salary").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("city").value = selectedRow.cells[3].innerHTML;
+}
+
+function updateRecord(formData) {
+    selectedRow.cells[0].innerHTML = formData.fullName;
+    selectedRow.cells[1].innerHTML = formData.empCode;
+    selectedRow.cells[2].innerHTML = formData.salary;
+    selectedRow.cells[3].innerHTML = formData.city;
+
+}
+
+function onDelete(td) {
+
+    if (confirm("are you sure to delete this record?")) {
+        row = td.parentElement.parentElement;
+        document.getElementById('employeeList').deleteRow(row.rowIndex);
+        resetForm();
     }
+    
+}
 
-    textfield.addEventListener('keypress', function(event){
-        let p = document.createElement('p');
-        if (event.key === "Enter") {
-           
-            string.appendChild(p);
-        }
-    })
-        
-})
 
-editBtn.addEventListener('click', function(){
-    titlefield.value = Note.title;
-    textfield.value = Note.text;
-})
-
-delBtn.addEventListener('click', function(){
-    titlecontent.textContent = '';
-    textcontent.textContent = '';
-    titlefield.value = '';
-    textfield.value = '';
-    Note.title = '';
-    Note.text = '';
-});
+function validate() {
+    isValid = true;
+    if (document.getElementById('fullName').value == "") {
+        isValid = false;
+        document.getElementById("fullNameValidationError").classList.remove('hide');
+    } else {
+        isValid = true;
+        if (!document.getElementById('fullNameValidationError').classList.contains('hide'))
+            document.getElementById('fullNameValidationError').classList.add('hide');
+    }
+    return isValid;
+}
 
