@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPPoE Config Generator</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+}
+.container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 2em auto;
+}
+
+/* form */
+
+form {
+    margin: auto;
+    display: flex;
+    width: 800px;
+    flex-direction: column;
+}
+
+form span {
+    font-size: .6rem;
+}
+
+input {
+    width: 100%;
+    height: 20px;
+    padding: 10px;
+    margin: .55em 0;
+    border: 1px solid rgba(0,0,0,0.25);
+}
+
+select {
+    width: 100%;
+    padding: 0 5px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.25);
+}
+
+label {
+    margin: .4em 0;
+}
+
+textarea {
+    margin: 1em 0;
+    padding: 1em;
+    width: 300px;
+    height: 400px;
+    border: 1px solid rgba(0,0,0,0.25);
+}
+
+button {
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    background-color: blueviolet;
+    color: #fff;
+    width: 100px;
+    padding: 15px 10px;
+    cursor: pointer;
+    margin: 1em 0;
+}
+
+button:hover {
+    background-color: rgb(148, 62, 228);
+}
+
+
+/* panel result */
+
+.c-result {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    display: none;
+    opacity: 0;
+    transition: 1s;
+}
+.c-result.active {
+    display: block;
+    opacity: 1;
+}
+
+/* teks tambahan */
+
+.copyBtn {
+    display: none;
+}
+.copyBtn.active {
+    display: block;
+}
+
+
+.closeBtn {
+    display: none;
+}
+.closeBtn.active {
+    display: block;
+}
+
+.w-olt {
+    display: none;
+}
+.w-olt.active {
+    color: red;
+    display: inline-block;
+}
+
+.w-onu {
+    display: none;
+}
+.w-onu.active {
+    color: red;
+    display: inline-block;
+}
+
+.w-sn {
+    display: none;
+}
+.w-sn.active {
+    color: red;
+    display: inline-block;
+}
+
+.w-pppoe {
+    display: none;
+}
+.w-pppoe.active {
+    color: red;
+    display: inline-block;
+}
+
+.w-password {
+    display: none;
+}
+.w-password.active {
+    color: red;
+    display: inline-block;
+}
+
+.w-vlan {
+    display: none;
+}
+.w-vlan.active {
+    color: red;
+    display: inline-block;
+}
+
+
+@media (max-width: 500px) {
+    .container {
+        width: 400px;
+        overflow-x: hidden;
+    }
+
+    form {
+        justify-content: center;
+        width: 250px;
+    }
+
+    .c-result {
+        position: absolute;
+        width: 200px;
+        top: 20px;
+        left: 20%;
+        display: none;
+    }
+
+    .c-result.active {
+        display: block;
+    }
+    
+    .formulir.active {
+        opacity: 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+            <form class="formulir" autocomplete="off" onsubmit="event.preventDefault()">
+                <label for="portOlt">Port Inti OLT :</label>
+                <select id="portOlt">
+                    <option value="1/1/">1/1/</option>
+                    <option value="1/2/">1/2/</option>
+                </select>
+                <label for="portField">Slot OLT (1-8) : <span class="w-olt">di isi dulu bro</span></label>
+                <input type="text" id="portField">
+
+                <label for="onuField">Nomor Onu : <span class="w-onu">di isi dulu bro</span></label>
+                <input type="number" id="onuField" min="1" value="1">
+
+                <label for="modemOption">Tipe Modem :</label>
+                <select id="modemOption">
+                    <option value="ZTEG-F609">F609</option>
+                    <option value="ZTEG-F660">F660</option>
+                    <option value="ZTEG-F670">F670</option>
+                    <option value="ZTE-F679L">F679L</option>
+                </select>
+
+                <label for="nomorSN">nomor SN : <span class="w-sn">di isi dulu bro</span></label>
+                <input type="text" id="nomorSN">
+
+                <label for="userPppoe">Nama Pelanggan : <span class="w-pppoe">di isi dulu bro</span></label>
+                <input type="text" id="userPppoe">
+
+                <label for="userPassword">Buat Kata Sandi : <span class="w-password">di isi dulu bro</span></label>
+                <input type="text" id="userPassword">
+
+                        
+                <label for="pilihanPaket">Pilih Paket :</label>
+                <select id="pilihanPaket">
+                <option value="1Mbps">1Mbps</option>
+                <option value="5Mbps">5Mbps</option>
+                <option value="10Mbps">10Mbps</option>
+                <option value="15Mbps">15Mbps</option>
+                <option value="20Mbps">20Mbps</option>
+                <option value="50Mbps">50Mbps</option>
+                </select>
+
+                <label for="vlanId">Nomor VLAN : <span class="w-vlan">di isi dulu bro</span></label>
+                <input type="text" id="vlanId" name="vlanId">
+
+                <button class="generateBtn">Generate</button>
+            </form>
+        <div class="c-result">
+            <h3>Result</h3>
+            <textarea id="resultField" readonly></textarea>
+            <p class="noticeTxt"></p>
+            <button class="copyBtn" onclick="copyResult()">Copy text</button>
+            <button class="closeBtn" onclick="closeResult()">Close</button>
+        </div>
+    </div>
+    <script>
+        let generateBtn = document.querySelector('.generateBtn');
+generateBtn.addEventListener('click', function(){
+    
+    let portOlt = document.getElementById('portOlt');
+    let portField = document.getElementById('portField');
+    let onuField = document.getElementById('onuField');
+    let modemOption = document.getElementById('modemOption');
+    let nomorSN = document.getElementById('nomorSN');
+    let userPppoe = document.getElementById('userPppoe');
+    let userPassword = document.getElementById('userPassword');
+    let pilihanPaket = document.getElementById('pilihanPaket');
+    let vlanId = document.getElementById('vlanId');
+    
+    let guide1 = document.querySelector('.w-olt');
+    let guide2 = document.querySelector('.w-onu');
+    let guide3 = document.querySelector('.w-sn');
+    let guide4 = document.querySelector('.w-pppoe');
+    let guide5 = document.querySelector('.w-password');
+    let guide6 = document.querySelector('.w-vlan');
+
+    if (portField.value == '') {
+        
+        guide1.classList.add('active');
+    }
+    if (onuField.value == '') {
+        
+        guide2.classList.add('active');
+    }
+
+    if (nomorSN.value == '') {
+        
+        guide3.classList.add('active');
+    }
+    if (userPppoe.value == '') {
+       
+        guide4.classList.add('active');
+    }
+    if (userPassword.value == '') {
+        
+        guide5.classList.add('active');
+    }
+    if (vlanId.value == '') {
+        
+        guide6.classList.add('active');
+    }
+  
+
+    
+    
+
+
+    else {
+        guide1.style.display = "none";
+        guide2.style.display = "none";
+        guide3.style.display = "none";
+        guide4.style.display = "none";
+        guide5.style.display = "none";
+        guide6.style.display = "none";
+    
+        let finalResult = `
+conf t
+interface gpon-olt_${portOlt.value}${portField.value}
+no onu ${onuField.value}
+exit
+interface gpon-olt_${portOlt.value}${portField.value}
+onu ${onuField.value} type ${modemOption.value} sn ${nomorSN.value}
+exit
+interface gpon-onu_${portOlt.value}${portField.value}:${onuField.value}
+name ${userPppoe.value}
+description ${nomorSN.value}
+tcont 1 name INET profile ${pilihanPaket.value}
+gemport 1 name INET tcont 1
+service-port 1 vport 1 user-vlan ${vlanId.value} vlan ${vlanId.value}
+exit
+pon-onu-mng gpon-onu_${portOlt.value}${portField.value}:${onuField.value}
+service INET gemport 1 vlan ${vlanId.value}
+wan-ip 1 mode pppoe username ${userPppoe.value} password ${userPassword.value} vlan-profile INET${vlanId.value} host 1
+wan 1 service internet host 1
+end`;
+    
+        document.getElementById('resultField').innerHTML = finalResult;
+
+        let copyBtn = document.querySelector('.copyBtn');
+        copyBtn.classList.add('active');
+        let closeBtn = document.querySelector('.closeBtn');
+        closeBtn.classList.add('active');
+
+        let cResult = document.querySelector('.c-result');
+        cResult.classList.add('active');
+
+        let formulir = document.querySelector('.formulir');
+        formulir.classList.add('active');
+
+    
+    }
+});
+
+
+function copyResult() {
+    var copyText = document.getElementById("resultField");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value);
+
+    let noticeTxt = document.querySelector('.noticeTxt');
+    noticeTxt.innerHTML = 'Teks berhasil di salin !'
+}
+
+function closeResult() {
+
+    let cResult = document.querySelector('.c-result');
+    cResult.classList.remove('active');
+    let noticeTxt = document.querySelector('.noticeTxt');
+    noticeTxt.innerHTML = '';
+
+    let formulir = document.querySelector('.formulir');
+    formulir.classList.remove('active');
+}
+    </script>
+</body>
+</html>
