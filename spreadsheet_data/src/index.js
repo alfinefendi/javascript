@@ -8,7 +8,6 @@ const contactFormSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   email: z.string().email(),
   message: z.string().min(1, { message: 'Message is required' }),
-  invoice: z.string().min(1, { message: 'Name is required' }),
 });
 
 app.use(express.json());
@@ -24,9 +23,9 @@ app.post('/send-message', async (req, res) => {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
-      range: 'Data2!R2C2:R3C3',
-      insertDataOption: 'INSERT_ROWS',
-      valueInputOption: 'USER_ENTERED',
+      range: 'Sheet1!A:C',
+      insertDataOption: 'OVERWRITE',
+      valueInputOption: 'RAW',
       requestBody: {
         values: [rows],
       },
@@ -42,4 +41,3 @@ app.post('/send-message', async (req, res) => {
 });
 
 app.listen(5000, () => console.log(`App running on http://localhost:5000`));
- 
